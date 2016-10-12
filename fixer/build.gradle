@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    testCompile 'junit:junit:4.12'
+}
+
+//group和version在后面使用自定义插件的时候会用到
+group='com.demo.library'
+version='1.0.2'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+//            提交到远程服务器：
+            repository(url: "http://192.168.200.207:8088/content/repositories/releases/") {
+                authentication(userName: "admin", password: "admin123")
+            }
+            //本地的Maven地址设置为D:/repos
+//            repository(url: uri('D:/repos'))
+        }
+    }
+}
+
